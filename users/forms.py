@@ -53,10 +53,6 @@ class UserChangeForm(forms.ModelForm):
         fields = ['email', 'password', 'is_active', 'is_admin']
 
 
-class UserRegistrationForm(UserCreationForm):
-    pass
-
-
 class ProfileCreationForm(forms.ModelForm):
     """
     A form for creating profiles of users
