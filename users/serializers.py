@@ -18,10 +18,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
 
-    def create(self, validated_date):
-        profile = Profile.objects.create(**validated_date)
+    def create(self, validated_data):
+        profile = Profile.objects.create(
+            name=validated_data['name'],
+            date_of_birth=validated_data['date_of_birth'],
+            gender=validated_data['gender'],
+            looking_for=validated_data['looking_for'],
+            sexual_identity=validated_data['sexual_identity'],
+            user=validated_data['user']
+        )
+        profile.interest.set(validated_data['interest'])
         return profile
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ('name', 'date_of_birth', 'gender',
+                  'looking_for', 'sexual_identity', 'bio', 'interest')
