@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+
 from .serializers import UserSerializer, ProfileSerializer
 
 
@@ -15,18 +16,18 @@ class RegisterUserView(APIView):
         if serializer.is_valid():
             serializer.save()
             return redirect('/create_profile')
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CreateProfileView(RegisterUserView):
+class CreateProfileView(APIView):
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated, ]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        user = self.request.user
+        print(request.data)
         if serializer.is_valid():
-            serializer.save(user=user)
+            serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

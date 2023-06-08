@@ -2,8 +2,37 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
-from .managers import UserManager
+
 from PIL import Image
+
+from .managers import UserManager
+
+
+class Gender(models.IntegerChoices):
+    MALE = 0, _('Male')
+    FEMALE = 1, _('Female')
+
+    __empty__ = _('(Unknown)')
+
+
+class SexualIdentity(models.TextChoices):
+    HETERO = 'H', _('Hetero')
+    GAY = 'G', _('Gay')
+    LESBIAN = 'L', _('Lesbian')
+    BISEXUAL = 'B', _('Bisexual')
+    ASEXUAL = 'A', _('Asexual')
+    DEMISEXUAL = 'D', _('Demisexual')
+    PANSEXUAL = 'P', _('Pansexual')
+    QUEER = 'Q', _('Queer')
+    UNDECIDED = 'U', _('Undecided')
+
+
+class LookingFor(models.IntegerChoices):
+    MALE = 0, _('Men')
+    FEMALE = 1, _('Women')
+    BOTH = 2, _('Both')
+
+    __empty__ = _('(Unknown)')
 
 
 class Interest(models.Model):
@@ -74,30 +103,6 @@ class Profile(models.Model):
     """
     Model to display user public credentials
     """
-    class Gender(models.IntegerChoices):
-        MALE = 0, _('Male')
-        FEMALE = 1, _('Female')
-
-        __empty__ = _('(Unknown)')
-
-    class SexualIdentity(models.TextChoices):
-        HETERO = 'H', _('Hetero')
-        GAY = 'G', _('Gay')
-        LESBIAN = 'L', _('Lesbian')
-        BISEXUAL = 'B', _('Bisexual')
-        ASEXUAL = 'A', _('Asexual')
-        DEMISEXUAL = 'D', _('Demisexual')
-        PANSEXUAL = 'P', _('Pansexual')
-        QUEER = 'Q', _('Queer')
-        UNDECIDED = 'U', _('Undecided')
-
-    class LookingFor(models.IntegerChoices):
-        MALE = 0, _('Men')
-        FEMALE = 1, _('Women')
-        BOTH = 2, _('Both')
-
-        __empty__ = _('(Unknown)')
-
     user = models.OneToOneField(
         User,
         verbose_name=_('Profile'),
@@ -152,19 +157,20 @@ class ProfileImage(models.Model):
     image = models.ImageField(
         verbose_name=_('Photo'),
         upload_to=user_directory_path,
+        blank=True,
     )
 
     def save(self):
         super(ProfileImage, self).save()
-        img = Image.open(self.photo.path)
+        img = Image.open(self.image.path)
         if img.height > 800 and img.width > 500:
             img.thumbnail((800, 500))
-        img.save(self.photo.path, optimize=True)
+        img.save(self.image.path, optimize=True)
 
     @mark_safe
-    def photo_preview(self):
+    def image_preview(self):
         return '<img src="{tag}" height="175" width="150" />' \
-            .format(tag=self.photo.url,)
+            .format(tag=self.image.url,)
 
     class Meta:
         verbose_name = _('Photo')

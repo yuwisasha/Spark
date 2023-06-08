@@ -15,9 +15,9 @@ class ProfileInline(admin.StackedInline):
     fk_name = 'user'
 
 
-class PhotoInline(admin.StackedInline):
+class ProfileImageInline(admin.StackedInline):
     model = ProfileImage
-    readonly_fields = ('photo_preview', )
+    readonly_fields = ('image_preview', )
     can_delete = True
     verbose_name = _('Photo')
     verbose_name_plural = _('Photos')
@@ -29,7 +29,7 @@ class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
-    inlines = [ProfileInline, PhotoInline]
+    inlines = [ProfileInline, ProfileImageInline]
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
