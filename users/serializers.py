@@ -26,17 +26,22 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    images = ProfileImageSerializer(many=True)
+    images = ProfileImageSerializer(many=True, required=False)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(allow_empty_file=False, use_url=False),
+        write_only=True,
+    )
 
     class Meta:
         model = Profile
         fields = (
             'name', 'date_of_birth', 'gender', 'looking_for',
             'sexual_identity', 'bio', 'interest', 'images',
+            'uploaded_images',
         )
 
     def create(self, validated_data):
-        images_data = validated_data.pop('images')
+        images_data = validated_data.pop('uploaded_images')
         profile = Profile.objects.create(
             name=validated_data['name'],
             date_of_birth=validated_data['date_of_birth'],
@@ -47,5 +52,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         )
         profile.interest.set(validated_data['interest'])
         for image_data in images_data:
-            ProfileImage.objects.create(profile=profile, **image_data)
+            ProfileImage.objects.create(user=validated_data['user'],
+                                        profile=profile,
+                                        image=image_data,)
         return profile

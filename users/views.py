@@ -15,8 +15,8 @@ class RegisterUserView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return redirect('/create_profile')
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # return redirect('/create_profile')
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -26,7 +26,7 @@ class CreateProfileView(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        print(request.data)
+        print(serializer.initial_data)
         if serializer.is_valid():
             serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

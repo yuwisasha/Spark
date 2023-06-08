@@ -8,33 +8,6 @@ from PIL import Image
 from .managers import UserManager
 
 
-class Gender(models.IntegerChoices):
-    MALE = 0, _('Male')
-    FEMALE = 1, _('Female')
-
-    __empty__ = _('(Unknown)')
-
-
-class SexualIdentity(models.TextChoices):
-    HETERO = 'H', _('Hetero')
-    GAY = 'G', _('Gay')
-    LESBIAN = 'L', _('Lesbian')
-    BISEXUAL = 'B', _('Bisexual')
-    ASEXUAL = 'A', _('Asexual')
-    DEMISEXUAL = 'D', _('Demisexual')
-    PANSEXUAL = 'P', _('Pansexual')
-    QUEER = 'Q', _('Queer')
-    UNDECIDED = 'U', _('Undecided')
-
-
-class LookingFor(models.IntegerChoices):
-    MALE = 0, _('Men')
-    FEMALE = 1, _('Women')
-    BOTH = 2, _('Both')
-
-    __empty__ = _('(Unknown)')
-
-
 class Interest(models.Model):
     """
     Model for storing multiple profile interests
@@ -103,6 +76,29 @@ class Profile(models.Model):
     """
     Model to display user public credentials
     """
+    class Gender(models.IntegerChoices):
+        MALE = 0, _('Male')
+        FEMALE = 1, _('Female')
+
+        __empty__ = _('(Unknown)')
+
+    class SexualIdentity(models.TextChoices):
+        HETERO = 'H', _('Hetero')
+        GAY = 'G', _('Gay')
+        LESBIAN = 'L', _('Lesbian')
+        BISEXUAL = 'B', _('Bisexual')
+        ASEXUAL = 'A', _('Asexual')
+        DEMISEXUAL = 'D', _('Demisexual')
+        PANSEXUAL = 'P', _('Pansexual')
+        QUEER = 'Q', _('Queer')
+        UNDECIDED = 'U', _('Undecided')
+
+    class LookingFor(models.IntegerChoices):
+        MALE = 0, _('Men')
+        FEMALE = 1, _('Women')
+        BOTH = 2, _('Both')
+
+    __empty__ = _('(Unknown)')
     user = models.OneToOneField(
         User,
         verbose_name=_('Profile'),
@@ -149,9 +145,14 @@ class ProfileImage(models.Model):
     """
     Model for storing multiple profile photos
     """
-    profile = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         verbose_name=_('User'),
+        on_delete=models.CASCADE,
+    )
+    profile = models.ForeignKey(
+        Profile,
+        verbose_name=_('Profile'),
         on_delete=models.CASCADE,
     )
     image = models.ImageField(
@@ -160,7 +161,7 @@ class ProfileImage(models.Model):
         blank=True,
     )
 
-    def save(self):
+    def save(self, *args, **kwargs):
         super(ProfileImage, self).save()
         img = Image.open(self.image.path)
         if img.height > 800 and img.width > 500:

@@ -12,7 +12,6 @@ class ProfileInline(admin.StackedInline):
     can_delete = True
     verbose_name = _('Profile')
     verbose_name_plural = _('Profiles')
-    fk_name = 'user'
 
 
 class ProfileImageInline(admin.StackedInline):
@@ -21,7 +20,6 @@ class ProfileImageInline(admin.StackedInline):
     can_delete = True
     verbose_name = _('Photo')
     verbose_name_plural = _('Photos')
-    fk_name = 'profile'
     extra = 1
 
 
