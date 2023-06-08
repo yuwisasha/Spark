@@ -145,6 +145,8 @@ class ProfileImage(models.Model):
     """
     Model for storing multiple profile photos
     """
+    # foreign key to user because of bad django admin
+    # don't want to rewrite
     user = models.ForeignKey(
         User,
         verbose_name=_('User'),

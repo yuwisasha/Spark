@@ -21,6 +21,7 @@ class ProfileImageInline(admin.StackedInline):
     verbose_name = _('Photo')
     verbose_name_plural = _('Photos')
     extra = 1
+    fields = ['image', ]
 
 
 class UserAdmin(BaseUserAdmin):

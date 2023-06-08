@@ -27,6 +27,8 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     images = ProfileImageSerializer(many=True, required=False)
+    # to be able to upload several images at the same time
+    # and have them in validated_data
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(allow_empty_file=False, use_url=False),
         write_only=True,
