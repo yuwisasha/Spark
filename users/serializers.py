@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-
 from .models import User, Profile, ProfileImage
 
 
@@ -26,7 +25,9 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    images = ProfileImageSerializer(many=True, required=False)
+    images = ProfileImageSerializer(many=True,
+                                    read_only=True,
+                                    source='profileimage_set')
     # to be able to upload several images at the same time
     # and have them in validated_data
     uploaded_images = serializers.ListField(
@@ -53,8 +54,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             user=validated_data['user'],
         )
         profile.interest.set(validated_data['interest'])
+        print(validated_data['user'])
         for image_data in images_data:
-            ProfileImage.objects.create(user=validated_data['user'],
-                                        profile=profile,
+            ProfileImage.objects.create(profile=profile,
                                         image=image_data,)
         return profile

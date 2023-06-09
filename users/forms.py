@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import User, Profile, ProfileImage
+from .models import User, Profile
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -61,12 +61,3 @@ class ProfileCreationForm(forms.ModelForm):
         model = Profile
         fields = ('name', 'date_of_birth', 'gender', 'looking_for',
                   'sexual_identity', 'bio', 'interest', )
-
-
-class ProfileImageForm(forms.ModelForm):
-    """
-    A form for profile images
-    """
-    class Meta:
-        model = ProfileImage
-        fields = ('image', )

@@ -99,9 +99,10 @@ class Profile(models.Model):
         BOTH = 2, _('Both')
 
     __empty__ = _('(Unknown)')
+
     user = models.OneToOneField(
         User,
-        verbose_name=_('Profile'),
+        verbose_name=_('User'),
         on_delete=models.CASCADE,
     )
     name = models.CharField(
@@ -135,6 +136,9 @@ class Profile(models.Model):
         blank=True,
     )
 
+    def __str__(self):
+        return User.objects.get(id=self.user_id).email
+
 
 def user_directory_path(instance, filename):
     # photo will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -145,13 +149,6 @@ class ProfileImage(models.Model):
     """
     Model for storing multiple profile photos
     """
-    # foreign key to user because of bad django admin
-    # don't want to rewrite
-    user = models.ForeignKey(
-        User,
-        verbose_name=_('User'),
-        on_delete=models.CASCADE,
-    )
     profile = models.ForeignKey(
         Profile,
         verbose_name=_('Profile'),
@@ -166,8 +163,7 @@ class ProfileImage(models.Model):
     def save(self, *args, **kwargs):
         super(ProfileImage, self).save()
         img = Image.open(self.image.path)
-        if img.height > 800 and img.width > 500:
-            img.thumbnail((800, 500))
+        img.thumbnail((800, 500))
         img.save(self.image.path, optimize=True)
 
     @mark_safe

@@ -1,34 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.utils.translation import gettext_lazy as _
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Profile, ProfileImage
+from .models import User, Profile
 
 
 class ProfileInline(admin.StackedInline):
     model = Profile
-    can_delete = True
-    verbose_name = _('Profile')
-    verbose_name_plural = _('Profiles')
-
-
-class ProfileImageInline(admin.StackedInline):
-    model = ProfileImage
-    readonly_fields = ('image_preview', )
-    can_delete = True
-    verbose_name = _('Photo')
-    verbose_name_plural = _('Photos')
-    extra = 1
-    fields = ['image', ]
 
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
-    inlines = [ProfileInline, ProfileImageInline]
+    inlines = [ProfileInline, ]
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
