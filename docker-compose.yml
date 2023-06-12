@@ -21,6 +21,6 @@ services:
     volumes:
       - pgdbdata:/var/lib/pgsql/data/
     ports:
-      - 5433:5433
+      - 8080:8080
 volumes:
   pgdbdata:
