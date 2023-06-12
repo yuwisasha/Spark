@@ -26,7 +26,6 @@ class CreateProfileView(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        print(serializer.initial_data)
         if serializer.is_valid():
             serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

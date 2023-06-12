@@ -25,9 +25,11 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    images = ProfileImageSerializer(many=True,
-                                    read_only=True,
-                                    source='profileimage_set')
+    images = ProfileImageSerializer(
+        many=True,
+        read_only=True,
+        source='profileimage_set',
+    )
     # to be able to upload several images at the same time
     # and have them in validated_data
     uploaded_images = serializers.ListField(
@@ -38,9 +40,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
-            'name', 'date_of_birth', 'gender', 'looking_for',
-            'sexual_identity', 'bio', 'interest', 'images',
-            'uploaded_images',
+            'user_id', 'name', 'date_of_birth',
+            'gender', 'looking_for',
+            'sexual_identity', 'bio', 'interest',
+            'images', 'uploaded_images',
         )
 
     def create(self, validated_data):
@@ -54,7 +57,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             user=validated_data['user'],
         )
         profile.interest.set(validated_data['interest'])
-        print(validated_data['user'])
         for image_data in images_data:
             ProfileImage.objects.create(profile=profile,
                                         image=image_data,)
