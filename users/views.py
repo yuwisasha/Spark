@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .serializers import UserSerializer, ProfileSerializer
-from .models import User, Profile
+from .serializers import UserSerializer, ProfileSerializer, InterestSerializer
+from .models import User, Profile, Interest
 
 
 class RegisterUserView(APIView):
@@ -30,6 +30,11 @@ class CreateProfileView(APIView):
             serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class InterestListView(generics.ListAPIView):
+    queryset = Interest
+    serializer_class = InterestSerializer
 
 
 class UserListView(generics.ListAPIView):

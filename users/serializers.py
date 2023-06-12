@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Profile, ProfileImage
+from .models import User, Profile, ProfileImage, Interest
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,6 +15,13 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+class InterestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Interest
+        fields = '__all__'
 
 
 class ProfileImageSerializer(serializers.ModelSerializer):
@@ -40,7 +47,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
-            'user_id', 'name', 'date_of_birth',
+            'user_id', 'id', 'name', 'date_of_birth',
             'gender', 'looking_for',
             'sexual_identity', 'bio', 'interest',
             'images', 'uploaded_images',

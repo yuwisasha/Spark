@@ -15,4 +15,7 @@ urlpatterns = [
      path('profile_list',
           views.ProfileListView.as_view(),
           name='profile_list'),
+     path('interest_list',
+          views.InterestListView.as_view(),
+          name='interest_list')
 ]
