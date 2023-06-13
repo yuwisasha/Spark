@@ -45,6 +45,7 @@ class Message(models.Model):
         max_length=300,
         default='',
         blank=False,
+        null=False,
     )
     timestamp = models.DateTimeField(
         verbose_name=_('Sending time'),

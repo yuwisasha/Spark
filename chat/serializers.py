@@ -11,6 +11,7 @@ class SwipeSirealizer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    content = serializers.CharField(required=True)
 
     class Meta:
         model = Message
