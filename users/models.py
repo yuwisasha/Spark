@@ -134,6 +134,7 @@ class Profile(models.Model):
     interest = models.ManyToManyField(
         Interest,
         verbose_name=_('Interests'),
+        related_name='interests',
         blank=True,
     )
 
