@@ -5,6 +5,8 @@ This project is developed on [Django Rest Framework](https://github.com/encode/d
 
 ## RUN
 * Create and run containers for django and postgres ```docker-compose up --build```
+
 *From 2nd terminal*
+
 * Apply migrations ```docker-compose run django python manage.py migrate```
 * Create superuser (if you want) ```docker-compose run django python manage.py createsuperuser```
