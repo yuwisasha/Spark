@@ -48,7 +48,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = (
             'user_id', 'id', 'name', 'date_of_birth',
-            'gender', 'looking_for',
+            'age', 'gender', 'looking_for',
             'sexual_identity', 'bio', 'interest',
             'images', 'uploaded_images',
         )

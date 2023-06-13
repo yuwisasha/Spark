@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
+from datetime import datetime
 
 from PIL import Image
 
@@ -138,6 +139,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return User.objects.get(id=self.user_id).email
+
+    @property
+    def age(self):
+        return int((datetime.now().date() - self.date_of_birth).days / 365.25)
 
 
 def user_directory_path(instance, filename):
