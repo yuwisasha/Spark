@@ -21,11 +21,11 @@ docker-compose run django python manage.py createsuperuser
 ```
 
 ## Authentication
-You should create a user and then send a POST query to
+You should create a user and then send a POST query to to get **access token**,
 ```
 api/auth/token
 ```
-to get **access token**, and put that token into header **Authorization**, for example via *httpie*:
+Put that token into header **Authorization**, for example via *httpie*:
 ```
 http http://127.0.0.1:8000/api/v1/users/create_profile "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjE2MjA4Mjk1LCJqdGkiOiI4NGNhZmMzMmFiZDA0MDQ2YjZhMzFhZjJjMmRiNjUyYyIsInVzZXJfaWQiOjJ9.NJrs-sXnghAwcMsIWyCvE2RuGcQ3Hiu5p3vBmLkHSvM"
 ```
