@@ -4,15 +4,27 @@
 This project is developed on [Django](https://github.com/django/django) [Django Rest Framework](https://github.com/encode/django-rest-framework) with JWT auth using [simplejwt](https://github.com/jazzband/djangorestframework-simplejwt) 
 
 ## RUN
-* Create and run containers for django and postgres ```docker-compose up --build```
+* Create and run containers for django and postgres
+```
+docker-compose up --build
+```
 
 *From 2nd terminal*
 
-* Apply migrations ```docker-compose run django python manage.py migrate```
-* Create superuser (if you want) ```docker-compose run django python manage.py createsuperuser```
+* Apply migrations
+```
+docker-compose run django python manage.py migrate
+```
+* Create superuser (if you want)
+```
+docker-compose run django python manage.py createsuperuser
+```
 
 ## Authentication
-You should create a user and then send a POST query to ```api/auth/token```
+You should create a user and then send a POST query to
+```
+api/auth/token
+```
 to get **access token**, and put that token into header **Authorization**, for example via *httpie*:
 ```
 http http://127.0.0.1:8000/api/v1/users/create_profile "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjE2MjA4Mjk1LCJqdGkiOiI4NGNhZmMzMmFiZDA0MDQ2YjZhMzFhZjJjMmRiNjUyYyIsInVzZXJfaWQiOjJ9.NJrs-sXnghAwcMsIWyCvE2RuGcQ3Hiu5p3vBmLkHSvM"
