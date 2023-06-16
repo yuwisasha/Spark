@@ -11,10 +11,7 @@ class SwipeRightView(generics.CreateAPIView):
     serializer_class = SwipeSirealizer
 
 
-class ChatView(generics.ListCreateAPIView):
-    '''
-    Allows to read chat and send messages, takes POST, GET
-    '''
+class ChatView(generics.ListAPIView):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated, ]
 
